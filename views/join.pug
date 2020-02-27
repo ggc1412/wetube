@@ -1,4 +1,11 @@
-extends layouts\main
+extends layouts/main
 
 block content
-    p Join
+    form.join( action=routes.join, method="post" )
+        input( type="text", name="name", placeholder="Full Name" )
+        input( type="text", name="email", placeholder="E-Mail" )
+        input( type="text", name="password", placeholder="Password" )
+        input( type="text", name="password2", placeholder="Verify Password" )
+        input( type="submit", value="Join Now" )
+    include ./partials/socialLogin
+    
