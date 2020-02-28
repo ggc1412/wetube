@@ -1,7 +1,10 @@
-const home = (req, res) => res.render("home", { pageTitle: "Home"});
+import { videos } from "../db";
+const home = (req, res) => {
+    res.render("home", { pageTitle: "Home", videos });
+};
 const search = (req, res) => {
     const { query:{term:searchingBy} } = req; //const searchigBy = req.query.term;
-    res.render("search", { pageTitle: "Search", searchingBy }); //key:value인데 key=value면 한번만 써도 됨.
+    res.render("search", { pageTitle: "Search", searchingBy, videos }); //key:value인데 key=value면 한번만 써도 됨.
 };
 const upload = (req, res) => res.render("upload", { pageTitle: "Upload"});
 const videoDetail = (req, res) => res.render("video Detail", { pageTitle: "Video Detail"});

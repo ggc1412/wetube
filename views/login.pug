@@ -1,8 +1,9 @@
 extends layouts/main
 
 block content
-    form.login( action=routes.login, method="post" )
-        input( type="text", name="email", placeholder="E-Mail" )
-        input( type="text", name="password", placeholder="Password" )
-        input( type="submit", value="Log In" )
-    include ./partials/socialLogin
+    .form-conatiner
+        form action=routes.login, method="post" )
+            input( type="text", name="email", placeholder="E-Mail" )
+            input( type="text", name="password", placeholder="Password" )
+            input( type="submit", value="Log In" )
+        include ./partials/socialLogin
