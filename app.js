@@ -1,4 +1,5 @@
 import express from "express"; //const express = require('express');
+import cors from "cors";
 import morgan from "morgan";
 import helmet from "helmet";
 import passport from "passport";
@@ -36,6 +37,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use(cors());
 app.use(localsMiddleware);
 
 app.use(routes.home, globalRouter);
