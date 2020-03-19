@@ -10,6 +10,22 @@ const localsMiddleware = (req, res, next) => {
   next();
 };
 
-const uploadVideo = multerVideo.single("videofile");
+const onlyPublic = (req, res, next) => {
+  if (req.user) {
+    res.redirect(routes.home);
+  } else {
+    next();
+  }
+};
 
-export { localsMiddleware, uploadVideo };
+const onlyPrivate = (req, res, next) => {
+  if (req.user) {
+    next();
+  } else {
+    res.redirect(routes.home);
+  }
+};
+
+const uploadVideo = multerVideo.single("videoFile");
+
+export { localsMiddleware, uploadVideo, onlyPrivate, onlyPublic };

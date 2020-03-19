@@ -31,8 +31,36 @@ const postlogin = passport.authenticate("local", {
   successRedirect: routes.home
 });
 
+const githubLogin = passport.authenticate("github");
+const postGithubLogin = (req, res) => {
+  res.redirect(routes.home);
+};
+
+const githubLoginCallback = async (_, __, profile, cb) => {
+  const {
+    _json: { id, avatar_url, name, email }
+  } = profile;
+  try {
+    const user = await User.findOne({ email });
+    if (user) {
+      user.githubId = id;
+      user.save();
+      return cb(null, user);
+    }
+    const newUser = await User.create({
+      email: email,
+      name,
+      githubId: id,
+      avatarUrl: avatar_url
+    });
+    return cb(null, newUser);
+  } catch (error) {
+    return cb(error);
+  }
+};
+
 const logout = (req, res) => {
-  // TO Do: 로그아웃 처리
+  req.logout();
   res.redirect(routes.home);
 };
 
@@ -48,6 +76,9 @@ export {
   postjoin,
   getlogin,
   postlogin,
+  githubLogin,
+  postGithubLogin,
+  githubLoginCallback,
   logout,
   userDetail,
   editProfile,
