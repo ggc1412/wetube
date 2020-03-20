@@ -35,15 +35,13 @@
   .video__comments {
     margin-top: 25px;
     text-align: center;
+    width: 100%;
+    max-width: 300px;
     .video__comment-number {
       font-size: 18px;
     }
     .add__comment {
       margin-top: 25px;
-      width: 100%;
-      input {
-        width: 100%;
-      }
     }
     .video__comments-list {
       margin-top: 50px;
