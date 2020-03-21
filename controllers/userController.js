@@ -69,8 +69,17 @@ const getMe = (req, res) => {
   res.render("userDetail", { pageTitle: "User Detail", user: req.user });
 };
 
-const userDetail = (req, res) =>
-  res.render("userDetail", { pageTitle: "User Detail" });
+const userDetail = async (req, res) => {
+  const {
+    params: { id }
+  } = req;
+  try {
+    const user = await User.findById(id);
+    res.render("userDetail", { pageTitle: "User Detail", user });
+  } catch (error) {
+    res.redirect(routes.home);
+  }
+};
 const editProfile = (req, res) =>
   res.render("editProfile", { pageTitle: "Edit Profile" });
 const changePassword = (req, res) =>
