@@ -10,6 +10,7 @@ const USERS = "/users";
 const USER_DETAIL = "/:id";
 const EDIT_PROFILE = "/edit-profile";
 const CHANGE_PASSWORD = "/change-password";
+const ME = "/me";
 
 //Videos
 const VIDEOS = "/videos";
@@ -70,7 +71,8 @@ const routes = {
   githubCallback: GITHUB_CALLBACK,
   api: API,
   registerView: REGISTER_VIEW,
-  addComment: ADD_COMMENT
+  addComment: ADD_COMMENT,
+  me: ME
 };
 
 export default routes;

@@ -38,7 +38,7 @@ const postGithubLogin = (req, res) => {
 
 const githubLoginCallback = async (_, __, profile, cb) => {
   const {
-    _json: { id, avatar_url, name, email }
+    _json: { id, avatar_url: avatarUrl, name, email }
   } = profile;
   try {
     const user = await User.findOne({ email });
@@ -51,7 +51,7 @@ const githubLoginCallback = async (_, __, profile, cb) => {
       email: email,
       name,
       githubId: id,
-      avatarUrl: avatar_url
+      avatarUrl
     });
     return cb(null, newUser);
   } catch (error) {
@@ -62,6 +62,11 @@ const githubLoginCallback = async (_, __, profile, cb) => {
 const logout = (req, res) => {
   req.logout();
   res.redirect(routes.home);
+};
+
+const getMe = (req, res) => {
+  console.log(req.user);
+  res.render("userDetail", { pageTitle: "User Detail", user: req.user });
 };
 
 const userDetail = (req, res) =>
@@ -82,5 +87,6 @@ export {
   logout,
   userDetail,
   editProfile,
-  changePassword
+  changePassword,
+  getMe
 };

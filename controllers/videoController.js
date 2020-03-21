@@ -34,13 +34,15 @@ const getUpload = (req, res) => res.render("upload", { pageTitle: "Upload" });
 const postUpload = async (req, res) => {
   const {
     body: { title, description },
-    file: { path }
+    file: { path },
+    user
   } = req;
 
   const newVideo = await Video.create({
     fileUrl: path,
     title,
-    description
+    description,
+    creator: user._id
   });
   // model에 데이터 만드는 데에 시간이 걸리는 듯.
 
