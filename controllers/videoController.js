@@ -44,8 +44,8 @@ const postUpload = async (req, res) => {
     description,
     creator: user._id
   });
-  // model에 데이터 만드는 데에 시간이 걸리는 듯.
-
+  req.user.videos.push(newVideo.id);
+  req.user.save();
   res.redirect(routes.videoDetail(newVideo.id));
 };
 
@@ -56,6 +56,7 @@ const videoDetail = async (req, res) => {
   } = req;
 
   try {
+    console.log(res.locals.loggedUser);
     const video = await Video.findById(id)
       .populate("creator")
       .populate("comments");
@@ -72,8 +73,13 @@ const getEditVideo = async (req, res) => {
   } = req;
   try {
     const video = await Video.findById(id);
-    res.render("editVideo", { pageTitle: "Edit Video", video });
+    if (JSON.stringify(video.creator) !== JSON.stringify(req.user._id)) {
+      throw Error();
+    } else {
+      res.render("editVideo", { pageTitle: "Edit Video", video });
+    }
   } catch (error) {
+    console.error("error");
     res.redirect(routes.home);
   }
 };
@@ -97,7 +103,13 @@ const deleteVideo = async (req, res) => {
     params: { id }
   } = req;
   try {
-    await Video.findOneAndDelete({ _id: id });
+    const video = await Video.findById(id);
+    console.log(video);
+    if (JSON.stringify(video.creator) !== JSON.stringify(req.user._id)) {
+      throw Error();
+    } else {
+      await Video.findOneAndDelete({ _id: id });
+    }
   } catch (error) {
     console.log(error);
   }

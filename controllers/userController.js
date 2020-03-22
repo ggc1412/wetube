@@ -64,9 +64,13 @@ const logout = (req, res) => {
   res.redirect(routes.home);
 };
 
-const getMe = (req, res) => {
-  console.log(req.user);
-  res.render("userDetail", { pageTitle: "User Detail", user: req.user });
+const getMe = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).populate("videos");
+    res.render("userDetail", { pageTitle: "User Detail", user });
+  } catch (error) {
+    res.redirect(routes.home);
+  }
 };
 
 const userDetail = async (req, res) => {
@@ -74,16 +78,52 @@ const userDetail = async (req, res) => {
     params: { id }
   } = req;
   try {
-    const user = await User.findById(id);
+    const user = await User.findById(id).populate("videos");
     res.render("userDetail", { pageTitle: "User Detail", user });
   } catch (error) {
     res.redirect(routes.home);
   }
 };
-const editProfile = (req, res) =>
+const getEditProfile = async (req, res) => {
   res.render("editProfile", { pageTitle: "Edit Profile" });
-const changePassword = (req, res) =>
+};
+const postEditProfile = async (req, res) => {
+  const {
+    body: { name, email },
+    file
+  } = req;
+  try {
+    await User.findByIdAndUpdate(req.user.id, {
+      name,
+      email,
+      avatarUrl: file ? file.path : req.user.avatarUrl
+    });
+    res.redirect(routes.me);
+  } catch (error) {
+    res.redirect(routes.editProfile);
+  }
+};
+
+const getChangePassword = (req, res) =>
   res.render("changePassword", { pageTitle: "Change Password" });
+
+const postChangePassword = async (req, res) => {
+  const {
+    body: { oldPassword, newPassword, newPassword1 }
+  } = req;
+  try {
+    if (newPassword !== newPassword1) {
+      res.status(400);
+      res.redirect(`/users/${routes.changePassword}`);
+      return;
+    }
+    await req.user.changePassword(oldPassword, newPassword);
+    res.redirect(routes.me);
+  } catch (error) {
+    res.status(400);
+    res.redirect(`/users/${routes.changePassword}`);
+  }
+};
 
 export {
   getjoin,
@@ -95,7 +135,9 @@ export {
   githubLoginCallback,
   logout,
   userDetail,
-  editProfile,
-  changePassword,
+  getEditProfile,
+  postEditProfile,
+  getChangePassword,
+  postChangePassword,
   getMe
 };

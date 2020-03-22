@@ -55,6 +55,7 @@ const routes = {
   },
   editVideo: id => {
     if (id) {
+      console.log(id);
       return `/videos/${id}/edit`;
     } else {
       return EDIT_VIDEO;
