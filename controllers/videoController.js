@@ -7,6 +7,7 @@ const home = async (req, res) => {
   try {
     const videos = await Video.find({}).sort({ _id: -1 });
     res.render("home", { pageTitle: "Home", videos });
+    console.log(videos);
   } catch (error) {
     console.log(error);
     res.render("home", { pageTitle: "Home", videos: [] });
@@ -32,6 +33,7 @@ const search = async (req, res) => {
 // Upload
 const getUpload = (req, res) => res.render("upload", { pageTitle: "Upload" });
 const postUpload = async (req, res) => {
+  console.log("파일 : ", req.file);
   const {
     body: { title, description },
     file: { location },
@@ -56,7 +58,6 @@ const videoDetail = async (req, res) => {
   } = req;
 
   try {
-    console.log(res.locals.loggedUser);
     const video = await Video.findById(id)
       .populate("creator")
       .populate("comments");

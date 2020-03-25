@@ -7,7 +7,7 @@ block content
             button#jsRecordBtn 🎥 Start Recording
         form(action=`/videos${routes.upload}`, method="post", enctype="multipart/form-data")
             div.fileUpload
-                label(for="file") Video File
+                label(for="file") Video File ( Max 200MB )
                 input(type="file", id="file", name="videoFile", required=true, accept="video/*")
             input(type="text", placeholder="Title", name="title", required=true)
             textarea(name="description", placeholder="Description", required=true)
