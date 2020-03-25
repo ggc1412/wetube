@@ -7,7 +7,6 @@ const home = async (req, res) => {
   try {
     const videos = await Video.find({}).sort({ _id: -1 });
     res.render("home", { pageTitle: "Home", videos });
-    console.log(videos);
   } catch (error) {
     console.log(error);
     res.render("home", { pageTitle: "Home", videos: [] });
@@ -33,7 +32,6 @@ const search = async (req, res) => {
 // Upload
 const getUpload = (req, res) => res.render("upload", { pageTitle: "Upload" });
 const postUpload = async (req, res) => {
-  console.log("파일 : ", req.file);
   const {
     body: { title, description },
     file: { location },
@@ -105,7 +103,6 @@ const deleteVideo = async (req, res) => {
   } = req;
   try {
     const video = await Video.findById(id);
-    console.log(video);
     if (JSON.stringify(video.creator) !== JSON.stringify(req.user._id)) {
       throw Error();
     } else {
@@ -124,7 +121,6 @@ const postRegisterView = async (req, res) => {
   } = req;
   try {
     const video = await Video.findById(id);
-    console.log(video.views);
     video.views += 1;
     video.save();
     res.status(200);
