@@ -1,3 +1,5 @@
+import getBlobDuration from "get-blob-duration";
+
 const recordContainer = document.querySelector("#jsRecordContainer");
 const recordBtn = document.querySelector("#jsRecordBtn");
 const videoPreview = document.querySelector("#jsVideoPreview");
@@ -5,8 +7,12 @@ const videoPreview = document.querySelector("#jsVideoPreview");
 let streamObj;
 let videoRecorder;
 
-function saveData(e) {
+async function saveData(e) {
   const link = document.createElement("a");
+  console.log(1);
+  console.log(e.data);
+  const duration = await getBlobDuration(e.data);
+  console.log(duration);
   link.href = URL.createObjectURL(e.data);
   link.download = "recorded.mp4";
   link.click();
@@ -20,7 +26,7 @@ function startRecording() {
 
 function stopRecording() {
   videoRecorder.stop();
-  videoPreview.srcObject = null;
+  videoPreview.removeAttribute("srcObject");
   recordBtn.removeEventListener("click", stopRecording);
   recordBtn.addEventListener("click", getVideo);
   recordBtn.innerHTML = "🎥 Start Recording";
@@ -49,7 +55,6 @@ async function getVideo() {
 }
 
 function init() {
-  console.log("init");
   recordBtn.addEventListener("click", getVideo);
 }
 
