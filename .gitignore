@@ -108,5 +108,5 @@ dist
 
 # Package Lock
 package-lock.json
-uploads
 static
+build
