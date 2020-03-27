@@ -1,6 +1,7 @@
 import routes from "../routes";
 import Video from "../models/Video";
 import Comment from "../models/Comment";
+import User from "../models/User";
 
 // Home
 const home = async (req, res) => {
@@ -136,16 +137,35 @@ const postAddComment = async (req, res) => {
   const {
     params: { id },
     body: { comment },
-    user
+    user: loggedUser
   } = req;
   try {
     const video = await Video.findById(id);
+    const user = await User.findById(loggedUser.id);
     const newComment = await Comment.create({
       text: comment,
       creator: user.id
     });
     video.comments.push(newComment.id);
     video.save();
+    user.comments.push(newComment.id);
+    user.save();
+  } catch (error) {
+    res.status(400);
+  } finally {
+    res.end();
+  }
+};
+
+// Delete Comment
+const deleteComment = async (req, res) => {
+  const {
+    params: { id },
+    user
+  } = req;
+  try {
+    const video = await Video.findById(id);
+    const user = await User.findById(user.id);
   } catch (error) {
     res.status(400);
   } finally {
@@ -163,5 +183,6 @@ export {
   postEditVideo,
   deleteVideo,
   postRegisterView,
-  postAddComment
+  postAddComment,
+  deleteComment
 };
