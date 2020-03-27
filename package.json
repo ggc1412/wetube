@@ -55,8 +55,7 @@
     "prebuild": "rm -rf build",
     "copyAll": "cp -R src/static build && cp -R src/views build",
     "build": "npm run build:server && npm run build:assets && npm run copyAll",
-    "start": "node build/init.js",
-    "prestart": "npm run build"
+    "start": "node build/init.js"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
