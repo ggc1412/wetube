@@ -1,7 +1,11 @@
 import passport from "passport";
 import GitHubStrategy from "passport-github";
+import KakaoStrategy from "passport-kakao";
 import User from "./models/User";
-import { githubLoginCallback } from "./controllers/userController";
+import {
+  githubLoginCallback,
+  kakaoLoginCallback
+} from "./controllers/userController";
 import routes from "./routes";
 
 // Local Strategy
@@ -18,6 +22,19 @@ passport.use(
         : `http://localhost:3000${routes.githubCallback}`
     },
     githubLoginCallback
+  )
+);
+
+// kakao Strategy
+passport.use(
+  new KakaoStrategy(
+    {
+      clientID: process.env.KAKAO_CLIENT_ID,
+      callbackURL: process.env.PRODUCTION
+        ? `https://serene-dusk-80611.herokuapp.com${routes.kakaoCallback}`
+        : `http://localhost:3000${routes.kakaoCallback}`
+    },
+    kakaoLoginCallback
   )
 );
 

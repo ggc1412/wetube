@@ -9,7 +9,9 @@ import {
   getjoin,
   postjoin,
   postGithubLogin,
-  getMe
+  getMe,
+  kakaoLogin,
+  postKakaoLogin
 } from "../controllers/userController";
 import { onlyPublic, onlyPrivate } from "../middelwares";
 import passport from "passport";
@@ -31,6 +33,17 @@ globalRouter.get(
     failureFlash: "Can't log in. Check email and/or password"
   }),
   postGithubLogin
+);
+
+globalRouter.get(routes.kakao, kakaoLogin);
+globalRouter.get(
+  routes.kakaoCallback,
+  passport.authenticate("kakao", {
+    failureRedirect: "/login",
+    successFlash: "Welcome",
+    failureFlash: "Can't log in. Check email and/or password"
+  }),
+  postKakaoLogin
 );
 
 globalRouter.get(routes.home, home);
