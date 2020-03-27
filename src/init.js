@@ -2,7 +2,7 @@ import "@babel/polyfill";
 import "./db";
 import app from "./app";
 import dotenv from "dotenv";
-dotenv.config();
+dotenv.config({ path: "src/.env" });
 import "./models/Video";
 
 import "./models/Video";
