@@ -6,6 +6,7 @@ import session from "express-session";
 import path from "path";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
+import flash from "express-flash";
 import passport from "passport";
 import mongoose from "mongoose";
 import MongoStore from "connect-mongo";
@@ -16,7 +17,7 @@ import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
 
 import dotenv from "dotenv";
-dotenv.config();
+dotenv.config({ path: "src/.env" });
 
 import "./passport";
 import apiRouter from "./routers/apiRouter";
@@ -41,6 +42,7 @@ app.use(
     store: new CookieStore({ mongooseConnection: mongoose.connection })
   })
 );
+app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
