@@ -161,16 +161,28 @@ const postAddComment = async (req, res) => {
 const deleteComment = async (req, res) => {
   const {
     params: { id },
+    body: { commentId },
     user
   } = req;
   try {
     const video = await Video.findById(id);
-    const user = await User.findById(user.id);
+    const loggedUser = await User.findById(user.id);
+    deleteArray(video, commentId);
+    deleteArray(loggedUser, commentId);
+    Comment.findOneAndDelete({ _id: commentId });
   } catch (error) {
     res.status(400);
   } finally {
     res.end();
   }
+};
+
+const deleteArray = (model, commentId) => {
+  const index = model.comments.indexOf(commentId);
+  if (index > -1) {
+    model.comments.splice(index, 1);
+  }
+  model.save();
 };
 
 export {
