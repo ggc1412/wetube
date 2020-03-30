@@ -47,6 +47,7 @@ const addComment = comment => {
   delSpan.innerHTML = " 💥";
   li.appendChild(span);
   li.appendChild(delSpan);
+  li.classList.add("video__comment-loggedUser");
   commentList.prepend(li);
   increaseNumber();
 };

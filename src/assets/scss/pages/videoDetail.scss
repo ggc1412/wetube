@@ -51,11 +51,16 @@
         padding: 15px;
         border-radius: 20px;
         border-bottom-left-radius: 0px;
-        span:nth-child(2) {
-          cursor: pointer;
-        }
         &:not(:last-child) {
           margin-bottom: 15px;
+        }
+      }
+      .video__comment-loggedUser {
+        background-color: #f1c40f;
+        border-radius: 20px;
+        border-bottom-right-radius: 0px;
+        span:nth-child(2) {
+          cursor: pointer;
         }
         .video__comment-id {
           display: none;

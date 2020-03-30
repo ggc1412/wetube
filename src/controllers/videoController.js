@@ -104,10 +104,16 @@ const deleteVideo = async (req, res) => {
   } = req;
   try {
     const video = await Video.findById(id);
+    const user = await User.findById(video.creator);
     if (JSON.stringify(video.creator) !== JSON.stringify(req.user._id)) {
       throw Error();
     } else {
       await Video.findOneAndDelete({ _id: id });
+      const index = user.videos.indexOf(id);
+      if (index > -1) {
+        user.videos.splice(index, 1);
+      }
+      user.save();
     }
   } catch (error) {
     console.log(error);
@@ -177,8 +183,8 @@ const deleteComment = async (req, res) => {
   }
 };
 
-const deleteArray = (model, commentId) => {
-  const index = model.comments.indexOf(commentId);
+const deleteArray = (model, objectId) => {
+  const index = model.comments.indexOf(objectId);
   if (index > -1) {
     model.comments.splice(index, 1);
   }
