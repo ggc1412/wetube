@@ -5,9 +5,10 @@ mixin videoPlayer(video = {})
             .videoPlayer__column
                 span#jsVolumeBtn
                     i.fas.fa-volume-up
+                input.videoPlayer__volume.hidden#jsVolume(type="range", min="0" max="1" value="0.5" step="0.1")    
+            .videoPlayer__column        
                 span#jsPlayButton
                     i.fas.fa-play
-                input.videoPlayer__volume.hidden#jsVolume(type="range", min="0" max="1" value="0.5" step="0.1")
             .videoPlayer__column
                 input.videoPlayer__playRange#jsPlayRange(type="range" min="0" step="0.1" value="0")
             .videoPlayer__column
